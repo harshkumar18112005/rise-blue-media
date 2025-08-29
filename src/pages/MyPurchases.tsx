@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,29 +22,10 @@ const MyPurchases = () => {
     setHasSearched(true);
     
     // Purchase search logic - integrate with backend when available
-    // For now, we'll simulate a search with mock data
+    // For now, we'll simulate a search with no results
     setTimeout(() => {
-      // Mock purchases data - replace with actual API call
-      const mockPurchases = [
-        {
-          id: '1',
-          productName: 'Premium Website Package',
-          date: '2024-01-15',
-          amount: '$2,999',
-          status: 'Completed',
-          quantity: 1
-        },
-        {
-          id: '2',
-          productName: 'SEO Optimization Service',
-          date: '2024-01-20',
-          amount: '$599',
-          status: 'In Progress',
-          quantity: 1
-        }
-      ];
-      
-      setPurchases(email.includes('@') ? mockPurchases : []);
+      // No purchases data - ready for future payment integration
+      setPurchases([]);
       setIsLoading(false);
     }, 1000);
   };
@@ -100,70 +82,21 @@ const MyPurchases = () => {
           {/* Results Section */}
           {hasSearched && (
             <div>
-              {purchases.length > 0 ? (
-                <div className="space-y-6">
-                  <h2 className="text-2xl font-semibold text-foreground mb-4">
-                    Purchase History for {email}
-                  </h2>
-                  
-                  {purchases.map((purchase: any) => (
-                    <Card key={purchase.id} className="border-l-4 border-l-primary">
-                      <CardContent className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                          <div className="md:col-span-2">
-                            <div className="flex items-center mb-2">
-                              <Package className="h-5 w-5 text-primary mr-2" />
-                              <h3 className="font-semibold text-lg">{purchase.productName}</h3>
-                            </div>
-                            <p className="text-sm text-muted-foreground">
-                              Quantity: {purchase.quantity}
-                            </p>
-                          </div>
-                          
-                          <div>
-                            <div className="flex items-center mb-1">
-                              <Calendar className="h-4 w-4 text-muted-foreground mr-1" />
-                              <span className="text-sm font-medium">Purchase Date</span>
-                            </div>
-                            <p className="text-sm text-muted-foreground">{purchase.date}</p>
-                          </div>
-                          
-                          <div>
-                            <div className="flex items-center mb-1">
-                              <DollarSign className="h-4 w-4 text-muted-foreground mr-1" />
-                              <span className="text-sm font-medium">Amount</span>
-                            </div>
-                            <p className="text-lg font-bold text-primary">{purchase.amount}</p>
-                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                              purchase.status === 'Completed' 
-                                ? 'bg-primary/10 text-primary border border-primary/20' 
-                                : 'bg-accent/10 text-accent border border-accent/20'
-                            }`}>
-                              {purchase.status}
-                            </span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              ) : (
-                <Card>
-                  <CardContent className="text-center py-12">
-                    <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-foreground mb-2">
-                      No Purchases Found
-                    </h3>
-                    <p className="text-muted-foreground">
-                      We couldn't find any purchases associated with this email address.
-                    </p>
-                    <Separator className="my-4" />
-                    <p className="text-sm text-muted-foreground">
-                      Make sure you're using the same email address you provided when making the purchase.
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
+              <Card>
+                <CardContent className="text-center py-12">
+                  <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    No Purchases Found
+                  </h3>
+                  <p className="text-muted-foreground">
+                    We couldn't find any purchases associated with this email address.
+                  </p>
+                  <Separator className="my-4" />
+                  <p className="text-sm text-muted-foreground">
+                    Make sure you're using the same email address you provided when making the purchase.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           )}
         </div>
