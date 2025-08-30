@@ -43,7 +43,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-6">Services</h3>
             <ul className="space-y-3">
-              <li><Link to="/services/facebook-profiles" className="text-gray-400 hover:text-accent transition-colors duration-300">Facebook Profiles</Link></li>
+              <li><Link to="/services/29421484-4d92-44b7-85f2-411f37289293" className="text-gray-400 hover:text-accent transition-colors duration-300">BM Verifications</Link></li>
               <li><Link to="/services/business-manager" className="text-gray-400 hover:text-accent transition-colors duration-300">Business Manager</Link></li>
               <li><Link to="/services/facebook-pages" className="text-gray-400 hover:text-accent transition-colors duration-300">Facebook Pages</Link></li>
               <li><Link to="/services/instagram-assets" className="text-gray-400 hover:text-accent transition-colors duration-300">Instagram Assets</Link></li>
@@ -61,7 +61,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center text-gray-400">
                 <Phone className="w-4 h-4 mr-3 text-accent" />
-                <span>+919211752622</span>
+                <span>+91 9211752622</span>
               </li>
               <li className="flex items-center text-gray-400">
                 <MapPin className="w-4 h-4 mr-3 text-accent" />
