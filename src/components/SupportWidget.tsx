@@ -115,7 +115,7 @@ const SupportWidget = () => {
                   asChild
                   className="w-full bg-green-600 hover:bg-green-500 text-white rounded-xl h-10 md:h-12 text-xs md:text-sm font-medium transition-all duration-200 hover:scale-[1.02] shadow-lg"
                 >
-                  <a href="https://wa.me/your-number" target="_blank" rel="noopener noreferrer">
+                  <a href="https://wa.me/9211752622" target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-3 h-3 md:w-4 md:h-4 mr-2" />
                     WhatsApp
                   </a>
@@ -125,7 +125,7 @@ const SupportWidget = () => {
                   asChild
                   className="w-full bg-cyan-bright hover:bg-cyan-bright/80 text-white rounded-xl h-10 md:h-12 text-xs md:text-sm font-medium transition-all duration-200 hover:scale-[1.02] shadow-lg"
                 >
-                  <a href="https://t.me/your_channel" target="_blank" rel="noopener noreferrer">
+                  <a href="https://t.me/chiphensir" target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-3 h-3 md:w-4 md:h-4 mr-2" />
                     Telegram
                   </a>
