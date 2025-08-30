@@ -12,7 +12,7 @@ const Footer = () => {
               <span className="text-lg font-bold text-white">Rise Blue Media</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Your trusted partner for premium Facebook assets. We help businesses scale their marketing efforts with verified profiles, business managers, and established pages.
+              Your trusted partner for premium Social Media assets. We help businesses scale their marketing efforts with verified profiles, business managers, and established pages.
             </p>
             <div className="flex space-x-4">
               <Button size="icon" variant="ghost" className="text-gray-400 hover:text-accent hover:bg-accent/10">

@@ -41,7 +41,7 @@ const AboutSection = () => {
             </h2>
             
             <p className="text-xl text-gray-300 mb-6 leading-relaxed">
-              We are a leading provider of premium Facebook assets, specializing in verified profiles, business manager accounts, and established pages. Our mission is to help businesses scale their marketing efforts with authentic, high-quality social media assets.
+              We are a leading provider of premium Social Media assets, specializing in verified profiles, business manager accounts, and established pages. Our mission is to help businesses scale their marketing efforts with authentic, high-quality social media assets.
             </p>
             
             <p className="text-lg text-gray-400 mb-8 leading-relaxed">
