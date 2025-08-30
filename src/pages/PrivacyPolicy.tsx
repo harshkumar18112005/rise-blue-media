@@ -50,7 +50,7 @@ const PrivacyPolicy = () => {
             <h2 className="text-2xl font-semibold text-white mb-4">Contact Us</h2>
             <p className="text-gray-300 mb-4">
               If you have any questions about this Privacy Policy, please contact us at grivperm@gmail.com 
-              or +91 9211752622.
+              or +919211752622.
             </p>
           </section>
         </div>

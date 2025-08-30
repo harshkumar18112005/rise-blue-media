@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -96,10 +95,6 @@ const Services = () => {
     service.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleContactSupport = () => {
-    window.open('https://t.me/chiphensir', '_blank');
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -193,7 +188,7 @@ const Services = () => {
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Contact our team for tailored Facebook marketing solutions and bulk pricing options
             </p>
-            <Button className="cta-button text-lg px-8 py-4" onClick={handleContactSupport}>
+            <Button className="cta-button text-lg px-8 py-4">
               Contact Support
             </Button>
           </div>
