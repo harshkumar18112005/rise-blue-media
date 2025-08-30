@@ -52,8 +52,8 @@ const CookiePolicy = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-white mb-4">Contact Us</h2>
             <p className="text-gray-300 mb-4">
-              If you have any questions about our use of cookies, please contact us at support@risebluemedia.com 
-              or +1 (555) 123-4567.
+              If you have any questions about our use of cookies, please contact us at grivperm@gmail.com 
+              or +919211752622.
             </p>
           </section>
         </div>
