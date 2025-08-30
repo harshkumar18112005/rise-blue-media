@@ -44,9 +44,9 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white mb-6">Services</h3>
             <ul className="space-y-3">
               <li><Link to="/services/29421484-4d92-44b7-85f2-411f37289293" className="text-gray-400 hover:text-accent transition-colors duration-300">BM Verifications</Link></li>
-              <li><Link to="/services/business-manager" className="text-gray-400 hover:text-accent transition-colors duration-300">Business Manager</Link></li>
-              <li><Link to="/services/facebook-pages" className="text-gray-400 hover:text-accent transition-colors duration-300">Facebook Pages</Link></li>
-              <li><Link to="/services/instagram-assets" className="text-gray-400 hover:text-accent transition-colors duration-300">Instagram Assets</Link></li>
+              <li><Link to="/services/52760ed1-002f-4152-b133-c73241964f49" className="text-gray-400 hover:text-accent transition-colors duration-300">Google Ads Account SPY</Link></li>
+              <li><Link to="/services/d70efb82-5787-4213-96a1-65cfe5ec8966" className="text-gray-400 hover:text-accent transition-colors duration-300">BM SPY Service</Link></li>
+              <li><Link to="/services/6fe2146c-f00a-4efd-bf48-1646a880d7a3" className="text-gray-400 hover:text-accent transition-colors duration-300">Shopify Spy Service</Link></li>
               <li><Link to="/services" className="text-gray-400 hover:text-accent transition-colors duration-300">Custom Solutions</Link></li>
             </ul>
           </div>
