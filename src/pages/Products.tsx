@@ -85,6 +85,10 @@ const Products = () => {
     filteredProducts = [...filteredProducts].sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
   }
 
+  const handleContactSupport = () => {
+    window.open('https://t.me/chiphensir', '_blank');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -259,8 +263,8 @@ const Products = () => {
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Contact our team for custom Facebook assets and bulk pricing options
             </p>
-            <Button className="cta-button text-lg px-8 py-4">
-              <a href='https://t.me/chiphensir'>Contact Support</a>
+            <Button className="cta-button text-lg px-8 py-4" onClick={handleContactSupport}>
+              Contact Support
             </Button>
           </div>
         </section>
