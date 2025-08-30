@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, User, ChevronDown, ShoppingBag } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import LoginModal from '@/components/LoginModal';
 import { useAuth } from '@/contexts/AuthContext';
@@ -18,6 +19,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, session, signOut, loading } = useAuth();
   const { toast } = useToast();
 
@@ -53,6 +55,32 @@ const Header = () => {
     }
   };
 
+  const handleSectionNavigation = (sectionId: string) => {
+    if (location.pathname === '/') {
+      // Already on home page, just scroll to section
+      const element = document.getElementById(sectionId);
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate to home page first, then scroll to section
+      navigate('/', { state: { scrollTo: sectionId } });
+    }
+  };
+
+  // Handle scrolling when coming from another page
+  useEffect(() => {
+    if (location.state?.scrollTo && location.pathname === '/') {
+      const timer = setTimeout(() => {
+        const element = document.getElementById(location.state.scrollTo);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+        // Clear the state after scrolling
+        window.history.replaceState({}, document.title, location.pathname);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
+
   return (
     <header 
       className={`sticky top-0 z-50 py-4 transition-all duration-300 ${
@@ -80,28 +108,18 @@ const Header = () => {
             <Link to="/" className="nav-link text-white hover:text-accent">Home</Link>
             <Link to="/products" className="nav-link text-white hover:text-accent">Products</Link>
             <Link to="/services" className="nav-link text-white hover:text-accent">Services</Link>
-            <a 
-              href="/#how-it-works" 
+            <button 
               className="nav-link text-white hover:text-accent cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                const element = document.getElementById('how-it-works');
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => handleSectionNavigation('how-it-works')}
             >
               How it works
-            </a>
-            <a 
-              href="/#about" 
+            </button>
+            <button 
               className="nav-link text-white hover:text-accent cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                const element = document.getElementById('about');
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => handleSectionNavigation('about')}
             >
               About
-            </a>
+            </button>
             
             {!loading && (
               user ? (
@@ -161,34 +179,24 @@ const Header = () => {
               <Link to="/" className="nav-link text-white hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
               <Link to="/products" className="nav-link text-white hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
               <Link to="/services" className="nav-link text-white hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Services</Link>
-              <a 
-                href="/#how-it-works" 
-                className="nav-link text-white hover:text-accent cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
+              <button 
+                className="nav-link text-white hover:text-accent cursor-pointer text-left"
+                onClick={() => {
                   setIsMobileMenuOpen(false);
-                  setTimeout(() => {
-                    const element = document.getElementById('how-it-works');
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
+                  handleSectionNavigation('how-it-works');
                 }}
               >
                 How it works
-              </a>
-              <a 
-                href="/#about" 
-                className="nav-link text-white hover:text-accent cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
+              </button>
+              <button 
+                className="nav-link text-white hover:text-accent cursor-pointer text-left"
+                onClick={() => {
                   setIsMobileMenuOpen(false);
-                  setTimeout(() => {
-                    const element = document.getElementById('about');
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
+                  handleSectionNavigation('about');
                 }}
               >
                 About
-              </a>
+              </button>
               
                 <div className="flex flex-col space-y-2 pt-4">
                 {!loading && (
