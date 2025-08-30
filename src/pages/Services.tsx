@@ -189,7 +189,7 @@ const Services = () => {
               Contact our team for tailored Facebook marketing solutions and bulk pricing options
             </p>
             <Button className="cta-button text-lg px-8 py-4">
-              Contact Support
+              <a href='https://t.me/chiphensir'>Contact Support</a>
             </Button>
           </div>
         </section>
