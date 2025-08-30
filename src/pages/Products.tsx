@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -84,6 +85,10 @@ const Products = () => {
   } else if (sortBy === 'price-high') {
     filteredProducts = [...filteredProducts].sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
   }
+
+  const handleContactSupport = () => {
+    window.open('https://t.me/chiphensir', '_blank');
+  };
 
   if (loading) {
     return (
@@ -259,7 +264,10 @@ const Products = () => {
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Contact our team for custom Facebook assets and bulk pricing options
             </p>
-            <Button className="cta-button text-lg px-8 py-4">
+            <Button 
+              className="cta-button text-lg px-8 py-4"
+              onClick={handleContactSupport}
+            >
               Contact Support
             </Button>
           </div>
