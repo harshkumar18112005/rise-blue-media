@@ -140,10 +140,18 @@ const ServiceDetail = () => {
                 </div>
               )}
 
-              <div className="pt-6 border-t border-border/20">
+              <div className="pt-6 border-t border-border/20 flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="w-full md:w-auto cta-button"
+                  className="flex-1 cta-button"
+                  onClick={() => navigate(`/raise-ticket?service=${encodeURIComponent(service.title)}`)}
+                >
+                  Raise a Ticket
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="flex-1"
                   onClick={() => navigate('/services')}
                 >
                   Explore More Services

@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, User, ChevronDown, ShoppingBag } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, LogOut, User, ChevronDown, ShoppingBag, Ticket } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import LoginModal from '@/components/LoginModal';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -16,8 +15,8 @@ import {
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, session, signOut, loading } = useAuth();
   const { toast } = useToast();
 
@@ -123,6 +122,12 @@ const Header = () => {
                           My Purchases
                         </Link>
                       </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/my-tickets" className="flex items-center">
+                          <Ticket size={16} className="mr-2" />
+                          My Tickets
+                        </Link>
+                      </DropdownMenuItem>
                       <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
                         <LogOut size={16} className="mr-2" />
                         Sign Out
@@ -133,7 +138,7 @@ const Header = () => {
               ) : (
                 <Button 
                   className="outline-button"
-                  onClick={() => setIsLoginModalOpen(true)}
+                  onClick={() => navigate('/auth')}
                 >
                   Sign In
                 </Button>
@@ -210,7 +215,17 @@ const Header = () => {
                           My Purchases
                         </Button>
                       </Link>
-                      <Button 
+                      <Link to="/my-tickets">
+                        <Button 
+                          variant="outline"
+                          className="w-full text-white border-white hover:bg-white hover:text-primary mb-2"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <Ticket size={16} className="mr-2" />
+                          My Tickets
+                        </Button>
+                      </Link>
+                      <Button
                         variant="outline"
                         className="w-full text-white border-white hover:bg-white hover:text-primary"
                         onClick={() => {
@@ -227,7 +242,7 @@ const Header = () => {
                       className="outline-button w-full"
                       onClick={() => {
                         setIsMobileMenuOpen(false);
-                        setIsLoginModalOpen(true);
+                        navigate('/auth');
                       }}
                     >
                       Sign In
@@ -239,11 +254,6 @@ const Header = () => {
           </div>
         )}
       </div>
-
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
-      />
     </header>
   );
 };

@@ -16,6 +16,10 @@ const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const About = lazy(() => import("./pages/About"));
 const HowItWorks = lazy(() => import("./pages/HowItWorks"));
 const MyPurchases = lazy(() => import("./pages/MyPurchases"));
+const Auth = lazy(() => import("./pages/Auth"));
+const RaiseTicket = lazy(() => import("./pages/RaiseTicket"));
+const MyTickets = lazy(() => import("./pages/MyTickets"));
+const AdminTickets = lazy(() => import("./pages/AdminTickets"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
@@ -60,6 +64,10 @@ const App = () => (
                 <Route path="/about" element={<About />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
                 <Route path="/my-purchases" element={<MyPurchases />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/raise-ticket" element={<RaiseTicket />} />
+                <Route path="/my-tickets" element={<MyTickets />} />
+                <Route path="/admin/tickets" element={<AdminTickets />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/cookie-policy" element={<CookiePolicy />} />
