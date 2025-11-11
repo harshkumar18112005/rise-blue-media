@@ -10,58 +10,58 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.12 (cd3cf9e)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
       products: {
         Row: {
           category: string
-          created_at: string
+          created_at: string | null
           description: string
-          features: string[]
+          features: string[] | null
           icon_name: string
           id: string
           image: string
           popular: boolean | null
           premium: boolean | null
           price: string
-          status: string
-          stock: number
+          status: string | null
+          stock: number | null
           title: string
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
           category: string
-          created_at?: string
+          created_at?: string | null
           description: string
-          features?: string[]
+          features?: string[] | null
           icon_name: string
           id?: string
           image: string
           popular?: boolean | null
           premium?: boolean | null
           price: string
-          status?: string
-          stock?: number
+          status?: string | null
+          stock?: number | null
           title: string
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
           category?: string
-          created_at?: string
+          created_at?: string | null
           description?: string
-          features?: string[]
+          features?: string[] | null
           icon_name?: string
           id?: string
           image?: string
           popular?: boolean | null
           premium?: boolean | null
           price?: string
-          status?: string
-          stock?: number
+          status?: string | null
+          stock?: number | null
           title?: string
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -70,7 +70,7 @@ export type Database = {
           created_at: string | null
           description: string
           documentation: string | null
-          features: string[]
+          features: string[] | null
           icon_name: string
           id: string
           title: string
@@ -80,7 +80,7 @@ export type Database = {
           created_at?: string | null
           description: string
           documentation?: string | null
-          features: string[]
+          features?: string[] | null
           icon_name: string
           id?: string
           title: string
@@ -90,11 +90,79 @@ export type Database = {
           created_at?: string | null
           description?: string
           documentation?: string | null
-          features?: string[]
+          features?: string[] | null
           icon_name?: string
           id?: string
           title?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ticket_responses: {
+        Row: {
+          admin_id: string
+          created_at: string
+          id: string
+          message: string
+          ticket_id: string
+        }
+        Insert: {
+          admin_id: string
+          created_at?: string
+          id?: string
+          message: string
+          ticket_id: string
+        }
+        Update: {
+          admin_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_responses_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          attachments: string[] | null
+          created_at: string
+          description: string
+          id: string
+          service_name: string | null
+          status: Database["public"]["Enums"]["ticket_status"]
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attachments?: string[] | null
+          created_at?: string
+          description: string
+          id?: string
+          service_name?: string | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attachments?: string[] | null
+          created_at?: string
+          description?: string
+          id?: string
+          service_name?: string | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          title?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -106,7 +174,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      ticket_status:
+        | "pending"
+        | "accepted"
+        | "in_progress"
+        | "resolved"
+        | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -233,6 +306,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      ticket_status: [
+        "pending",
+        "accepted",
+        "in_progress",
+        "resolved",
+        "rejected",
+      ],
+    },
   },
 } as const
