@@ -1,5 +1,5 @@
 -- =====================================================
--- DEBUG: Check what's actually in production
+-- DEBUG: Check what's actually in productin
 -- =====================================================
 
 -- 1. Check services table and data
