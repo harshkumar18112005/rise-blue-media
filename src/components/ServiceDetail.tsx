@@ -143,18 +143,18 @@ const ServiceDetail = () => {
               <div className="pt-6 border-t border-border/20 flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="flex-1 cta-button"
-                  onClick={() => navigate(`/raise-ticket?service=${encodeURIComponent(service.title)}`)}
-                >
-                  Raise a Ticket
-                </Button>
-                <Button 
-                  size="lg" 
                   variant="outline"
                   className="flex-1"
                   onClick={() => navigate('/services')}
                 >
                   Explore More Services
+                </Button>
+                <Button 
+                  size="lg" 
+                  className="flex-1 cta-button"
+                  onClick={() => navigate(`/raise-ticket?service=${encodeURIComponent(service.title)}`)}
+                >
+                  Raise a Ticket
                 </Button>
               </div>
             </CardContent>

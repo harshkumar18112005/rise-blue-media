@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, User, ChevronDown, ShoppingBag, Ticket } from 'lucide-react';
+import { Menu, X, LogOut, User, ChevronDown, ShoppingBag, Ticket, Shield } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,11 +10,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, session, signOut, loading } = useAuth();
@@ -28,6 +30,23 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (user) {
+        const { data } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .eq('role', 'admin')
+          .single();
+        
+        setIsAdmin(!!data);
+      }
+    };
+    
+    checkAdminStatus();
+  }, [user]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -116,6 +135,17 @@ const Header = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
+                      {isAdmin && (
+                        <>
+                          <DropdownMenuItem asChild>
+                            <Link to="/admin/tickets" className="flex items-center text-blue-600 font-semibold">
+                              <Shield size={16} className="mr-2" />
+                              Admin Panel
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                        </>
+                      )}
                       <DropdownMenuItem asChild>
                         <Link to="/my-purchases" className="flex items-center">
                           <ShoppingBag size={16} className="mr-2" />
@@ -205,6 +235,18 @@ const Header = () => {
                           {user.user_metadata?.display_name || user.email}
                         </span>
                       </div>
+                      {isAdmin && (
+                        <Link to="/admin/tickets">
+                          <Button 
+                            variant="outline"
+                            className="w-full text-blue-400 border-blue-400 hover:bg-blue-500 hover:text-white mb-2 font-semibold"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <Shield size={16} className="mr-2" />
+                            Admin Panel
+                          </Button>
+                        </Link>
+                      )}
                       <Link to="/my-purchases">
                         <Button 
                           variant="outline"

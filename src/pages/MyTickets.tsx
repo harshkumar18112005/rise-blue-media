@@ -5,37 +5,37 @@ import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { supabase } from '@/integrations/supabase/client';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { ticketOperations } from '@/integrations/supabase/tickets';
+import { Ticket, TicketStatus } from '@/types/ticket';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2, Ticket, MessageSquare } from 'lucide-react';
+import { Loader2, Ticket as TicketIcon, MessageSquare, Paperclip } from 'lucide-react';
 import { format } from 'date-fns';
+import { toast } from 'sonner';
+import TicketConversation from '@/components/TicketConversation';
 
-type TicketWithResponses = {
-  id: string;
-  title: string;
-  description: string;
-  service_name: string | null;
-  status: 'pending' | 'accepted' | 'rejected' | 'in_progress' | 'solved';
-  created_at: string;
-  updated_at: string;
-  ticket_responses: Array<{
-    message: string;
-    created_at: string;
-  }>;
-};
-
-const statusColors = {
+const statusColors: Record<TicketStatus, string> = {
   pending: 'bg-yellow-500',
   accepted: 'bg-blue-500',
   rejected: 'bg-red-500',
   in_progress: 'bg-purple-500',
-  solved: 'bg-green-500',
+  resolved: 'bg-green-500',
+  closed: 'bg-gray-500',
+};
+
+const statusLabels: Record<TicketStatus, string> = {
+  pending: 'Pending',
+  accepted: 'Accepted',
+  rejected: 'Rejected',
+  in_progress: 'In Progress',
+  resolved: 'Resolved',
+  closed: 'Closed',
 };
 
 const MyTickets = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const [tickets, setTickets] = useState<TicketWithResponses[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,18 +51,11 @@ const MyTickets = () => {
 
   const fetchTickets = async () => {
     try {
-      const { data, error } = await supabase
-        .from('tickets' as any)
-        .select(`
-          *,
-          ticket_responses(message, created_at)
-        `)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setTickets(data as any || []);
-    } catch (error) {
+      const data = await ticketOperations.getUserTickets();
+      setTickets(data);
+    } catch (error: any) {
       console.error('Error fetching tickets:', error);
+      toast.error('Failed to load tickets');
     } finally {
       setLoading(false);
     }
@@ -90,7 +83,7 @@ const MyTickets = () => {
             <p className="text-muted-foreground">View and track your support tickets</p>
           </div>
           <Button onClick={() => navigate('/raise-ticket')}>
-            <Ticket className="w-4 h-4 mr-2" />
+            <TicketIcon className="w-4 h-4 mr-2" />
             Raise New Ticket
           </Button>
         </div>
@@ -98,7 +91,7 @@ const MyTickets = () => {
         {tickets.length === 0 ? (
           <Card>
             <CardContent className="py-16 text-center">
-              <Ticket className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <TicketIcon className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-xl font-semibold mb-2">No tickets yet</h3>
               <p className="text-muted-foreground mb-4">
                 You haven't raised any support tickets
@@ -113,42 +106,70 @@ const MyTickets = () => {
             {tickets.map((ticket) => (
               <Card key={ticket.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <CardTitle className="text-xl mb-2">{ticket.title}</CardTitle>
+                      <CardTitle className="text-xl mb-2">{ticket.subject}</CardTitle>
                       <CardDescription>
-                        {ticket.service_name && (
-                          <span className="mr-4">Service: {ticket.service_name}</span>
+                        {ticket.service_id && (
+                          <span className="mr-4">Service: {ticket.service_id}</span>
                         )}
                         <span>Ticket ID: {ticket.id.slice(0, 8)}</span>
                       </CardDescription>
                     </div>
                     <Badge className={statusColors[ticket.status]}>
-                      {ticket.status.replace('_', ' ').toUpperCase()}
+                      {statusLabels[ticket.status]}
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground mb-4">{ticket.description}</p>
-                  
-                  {ticket.ticket_responses && ticket.ticket_responses.length > 0 && (
-                    <div className="border-t pt-4 mt-4">
-                      <div className="flex items-center gap-2 mb-3">
-                        <MessageSquare className="w-4 h-4" />
-                        <span className="font-semibold">Admin Responses:</span>
-                      </div>
-                      <div className="space-y-3">
-                        {ticket.ticket_responses.map((response, idx) => (
-                          <div key={idx} className="bg-muted p-3 rounded-lg">
-                            <p className="text-sm">{response.message}</p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {format(new Date(response.created_at), 'PPp')}
-                            </p>
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="details">
+                      <AccordionTrigger>View Details</AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold mb-2">Description</h4>
+                            <p className="text-muted-foreground whitespace-pre-wrap">{ticket.description}</p>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                          
+                          {ticket.attachments && ticket.attachments.length > 0 && (
+                            <div>
+                              <h4 className="font-semibold mb-2 flex items-center gap-2">
+                                <Paperclip className="w-4 h-4" />
+                                Attachments ({ticket.attachments.length})
+                              </h4>
+                              <div className="space-y-2">
+                                {ticket.attachments.map((attachment, idx) => (
+                                  <a
+                                    key={idx}
+                                    href={attachment.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-sm text-blue-500 hover:underline"
+                                  >
+                                    <Paperclip className="w-3 h-3" />
+                                    {attachment.name}
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                    
+                    <AccordionItem value="discussion">
+                      <AccordionTrigger>
+                        <div className="flex items-center gap-2">
+                          <MessageSquare className="w-4 h-4" />
+                          Discussion & Follow-ups
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <TicketConversation ticketId={ticket.id} isAdmin={false} />
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                   
                   <div className="flex items-center justify-between mt-4 pt-4 border-t text-sm text-muted-foreground">
                     <span>Created: {format(new Date(ticket.created_at), 'PPp')}</span>
