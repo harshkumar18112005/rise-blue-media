@@ -121,10 +121,10 @@ export const TicketConversation = ({ ticketId, isAdmin = false }: TicketConversa
                   
                   <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
                     message.is_admin 
-                      ? 'bg-blue-50 border border-blue-200' 
-                      : 'bg-gray-50 border border-gray-200'
+                      ? 'bg-blue-50 border border-blue-200 text-blue-900' 
+                      : 'bg-gray-50 border border-gray-200 text-gray-900'
                   }`}>
-                    <p className="text-sm whitespace-pre-wrap">{message.message}</p>
+                    <p className="text-sm whitespace-pre-wrap break-words">{message.message}</p>
                     
                     {message.attachments && message.attachments.length > 0 && (
                       <div className="mt-2 pt-2 border-t space-y-1">
