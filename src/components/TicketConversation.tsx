@@ -110,31 +110,31 @@ export const TicketConversation = ({ ticketId, isAdmin = false }: TicketConversa
                 </div>
                 
                 <div className={`flex-1 ${message.is_admin ? 'text-left' : 'text-right'}`}>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Badge variant={message.is_admin ? 'default' : 'secondary'} className="text-xs">
+                  <div className={`flex items-center gap-2 mb-1 ${message.is_admin ? 'flex-row' : 'flex-row-reverse'}`}>
+                    <Badge variant={message.is_admin ? 'default' : 'secondary'} className="text-xs font-medium">
                       {message.is_admin ? 'Admin' : 'User'}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                       {format(new Date(message.created_at), 'PPp')}
                     </span>
                   </div>
                   
-                  <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
+                  <div className={`inline-block max-w-[80%] p-4 rounded-lg shadow-sm ${
                     message.is_admin 
-                      ? 'bg-blue-50 border border-blue-200 text-blue-900' 
-                      : 'bg-gray-50 border border-gray-200 text-gray-900'
+                      ? 'bg-blue-50 border border-blue-200 text-blue-950' 
+                      : 'bg-white border border-gray-300 text-gray-950'
                   }`}>
-                    <p className="text-sm whitespace-pre-wrap break-words">{message.message}</p>
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">{message.message}</p>
                     
                     {message.attachments && message.attachments.length > 0 && (
-                      <div className="mt-2 pt-2 border-t space-y-1">
+                      <div className="mt-3 pt-3 border-t border-gray-200 space-y-1">
                         {message.attachments.map((attachment: any, idx: number) => (
                           <a
                             key={idx}
                             href={attachment.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-xs text-blue-600 hover:underline"
+                            className="flex items-center gap-1 text-xs text-blue-700 hover:text-blue-900 hover:underline font-medium"
                           >
                             <Paperclip className="w-3 h-3" />
                             {attachment.name}
